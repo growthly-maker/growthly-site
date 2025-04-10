@@ -70,21 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Reveal animations on scroll
-    function revealOnScroll() {
-        const revealElements = document.querySelectorAll('.reveal');
-        const windowHeight = window.innerHeight;
-
-        revealElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-
-            if (elementTop < windowHeight - elementVisible) {
-                element.classList.add('active');
-            }
-        });
-    }
-    
     // Animation pour les statistiques
     function animateStats() {
         if (!statNumbers.length) return;
@@ -122,6 +107,35 @@ document.addEventListener('DOMContentLoaded', function() {
             window.requestAnimationFrame(step);
         });
     }
+    
+    // Reveal animations on scroll using Intersection Observer
+    function setupIntersectionObserver() {
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, options);
+        
+        portfolioItems.forEach(item => {
+            observer.observe(item);
+        });
+        
+        // Also observe other elements that should animate on scroll
+        const revealElements = document.querySelectorAll('.section-header, .portfolio-cta, .about-content, .testimonials-slider, .contact-content');
+        revealElements.forEach(el => {
+            observer.observe(el);
+        });
+    }
 
     // Portfolio Section Functions
     function initPortfolio() {
@@ -131,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!filterBtns.length || !portfolioItems.length) return;
         
-        // Filter button click handler
+        // Filter button click handler with improved animations
         filterBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 // Remove active class from all buttons
@@ -143,37 +157,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Get filter value
                 const filterValue = this.getAttribute('data-filter');
                 
-                // Filter portfolio items with nice animation
-                portfolioItems.forEach(item => {
+                // Animation timing variables
+                const animOutDuration = 300; // ms
+                const staggerDelay = 50; // ms
+                
+                // Filter portfolio items with enhanced animations
+                portfolioItems.forEach((item, index) => {
                     const category = item.getAttribute('data-category');
+                    const shouldShow = filterValue === 'all' || category === filterValue;
                     
-                    // Reset any previous transformations
-                    item.style.opacity = '';
-                    item.style.transform = '';
+                    // First hide all items with animation
+                    item.style.transition = `all ${animOutDuration}ms cubic-bezier(0.165, 0.84, 0.44, 1)`;
                     
-                    // Check if item should be shown or hidden
-                    if (filterValue === 'all' || category === filterValue) {
-                        // Show with animation
-                        item.classList.remove('hide');
+                    if (shouldShow) {
+                        // For items that should be shown
                         setTimeout(() => {
-                            item.style.display = '';
-                        }, 50);
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(40px)';
+                            
+                            // Slight delay to ensure hide animation completes
+                            setTimeout(() => {
+                                item.style.display = '';
+                                
+                                // Stagger the reveal of each item
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'translateY(0)';
+                                }, staggerDelay * index);
+                            }, animOutDuration);
+                        }, 10); // Small delay to ensure batch processing
                     } else {
-                        // Hide with animation
-                        item.classList.add('hide');
+                        // For items that should be hidden
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(40px)';
+                        
+                        // Hide after animation completes
                         setTimeout(() => {
                             item.style.display = 'none';
-                        }, 500); // Wait for animation to complete
+                        }, animOutDuration);
                     }
                 });
             });
+        });
+        
+        // Initially show all items with staggered animation
+        portfolioItems.forEach((item, index) => {
+            item.style.animationDelay = `${0.1 + (index * 0.1)}s`;
         });
     }
 
     // Event Listeners
     window.addEventListener('scroll', toggleHeaderClass);
     window.addEventListener('scroll', setActiveLink);
-    window.addEventListener('scroll', revealOnScroll);
     menuToggle.addEventListener('click', toggleMenu);
 
     navLinks.forEach(link => {
@@ -183,14 +218,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     toggleHeaderClass();
     setActiveLink();
-    revealOnScroll();
     animateStats();
     initPortfolio();
-
-    // Add reveal class to elements that should animate on scroll
-    document.querySelectorAll('.section-header, .about-content, .testimonials-slider, .contact-content').forEach(element => {
-        element.classList.add('reveal');
-    });
+    setupIntersectionObserver();
 
     // Apply fade-in animation to hero section elements
     const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
