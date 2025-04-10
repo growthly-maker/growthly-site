@@ -14,25 +14,42 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Styles intégrés pour les statistiques - assure que les styles sont disponibles immédiatement */
-        .stat-pill {
-            display: inline-block;
-            margin-top: 15px;
-            margin-right: 15px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #5D859B 0%, #4A6D80 100%);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            font-family: 'Playfair Display', serif;
+        /* Styles pour les micro-statistiques */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
         }
         
-        .stat-value {
+        .micro-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid rgba(93, 133, 155, 0.3);
+            padding-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .micro-stat:hover {
+            border-bottom-color: rgba(231, 76, 60, 0.8);
+        }
+        
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             font-weight: 700;
-            font-size: 1.2em;
-            margin-right: 5px;
-            color: #FFCD3D;
+            background: linear-gradient(90deg, #5D859B, #E74C3C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6C757D;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -73,11 +90,20 @@
                     <a href="#contact" class="btn btn-outline">Obtenir un audit gratuit</a>
                 </div>
                 
-                <!-- Statistiques avec style intégré -->
-                <div>
-                    <span class="stat-pill"><span class="stat-value">98%</span>Satisfaction client</span>
-                    <span class="stat-pill"><span class="stat-value">+147%</span>Conversion moyen</span>
-                    <span class="stat-pill"><span class="stat-value">+200</span>Projets réalisés</span>
+                <!-- Micro statistiques élégantes -->
+                <div class="stats-row">
+                    <div class="micro-stat">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Satisfaction client</span>
+                    </div>
+                    <div class="micro-stat">
+                        <span class="stat-number">+147%</span>
+                        <span class="stat-label">Taux de conversion</span>
+                    </div>
+                    <div class="micro-stat">
+                        <span class="stat-number">+200</span>
+                        <span class="stat-label">Projets réalisés</span>
+                    </div>
                 </div>
             </div>
         </section>
