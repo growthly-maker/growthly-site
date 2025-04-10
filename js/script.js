@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-menu li a');
     const sections = document.querySelectorAll('section[id]');
+    const statNumbers = document.querySelectorAll('.stat-number');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
 
     // Header scroll effect
     function toggleHeaderClass() {
@@ -85,6 +87,51 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Animate statistics
+    function animateStats() {
+        if (!statNumbers.length) return;
+        
+        statNumbers.forEach(stat => {
+            const targetValue = parseFloat(stat.textContent);
+            const duration = 2000; // 2 seconds
+            
+            // Remove the % or + signs for animation
+            const isSuffix = stat.textContent.includes('%') ? '%' : '';
+            const isPrefix = stat.textContent.includes('+') ? '+' : '';
+            let currentValue = 0;
+            
+            const animateCountUp = (timestamp, startValue, endValue, startTime) => {
+                if (!startTime) startTime = timestamp;
+                
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                
+                currentValue = Math.floor(startValue + (endValue - startValue) * easeProgress);
+                stat.textContent = `${isPrefix}${currentValue}${isSuffix}`;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(time => animateCountUp(time, startValue, endValue, startTime));
+                }
+            };
+            
+            // Start the animation
+            requestAnimationFrame(time => animateCountUp(time, 0, targetValue));
+        });
+    }
+    
+    // Scroll indicator click
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', function() {
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+                window.scrollTo({
+                    top: servicesSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
 
     // Event Listeners
     window.addEventListener('scroll', toggleHeaderClass);
@@ -99,6 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     toggleHeaderClass();
     setActiveLink();
+    
+    // Wait for page load then animate stats
+    window.addEventListener('load', animateStats);
 
     // Add reveal class to elements that should animate on scroll
     document.querySelectorAll('.section-header, .services-grid, .portfolio-grid, .about-content, .testimonials-slider, .contact-content').forEach(element => {
@@ -111,6 +161,19 @@ document.addEventListener('DOMContentLoaded', function() {
         element.classList.add('fade-in');
         element.style.animationDelay = `${index * 0.2}s`;
     });
+    
+    // Parallax effect for hero section
+    const heroSection = document.querySelector('.hero-section');
+    const heroBackground = document.querySelector('.hero-background');
+    
+    if (heroSection && heroBackground) {
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const parallaxEffect = scrollPosition * 0.4;
+            
+            heroBackground.style.transform = `translateY(${parallaxEffect}px)`;
+        });
+    }
 });
 
 // Function to initialize services section
