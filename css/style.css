@@ -303,7 +303,9 @@ ul {
 .hero-section {
     position: relative;
     height: 100vh;
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
     padding-top: 80px;
     overflow: hidden;
@@ -351,10 +353,15 @@ ul {
 .hero-section .container {
     position: relative;
     z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 850px;
     animation: fadeIn 0.8s ease-out forwards;
 }
 
@@ -362,6 +369,7 @@ ul {
     margin-bottom: var(--spacing-md);
     font-size: clamp(2.8rem, 5.5vw, 4.5rem);
     line-height: 1.1;
+    text-align: center;
 }
 
 .hero-title-line {
@@ -371,17 +379,19 @@ ul {
 
 .hero-text {
     font-size: 1.25rem;
-    max-width: 600px;
-    margin-bottom: var(--spacing-lg);
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg);
     color: var(--color-gray);
     animation: fadeIn 0.8s ease-out 0.3s forwards;
     opacity: 0;
+    text-align: center;
 }
 
 .cta-buttons {
     margin-bottom: var(--spacing-lg);
     animation: fadeIn 0.8s ease-out 0.6s forwards;
     opacity: 0;
+    justify-content: center;
 }
 
 .hero-stats {
@@ -393,29 +403,32 @@ ul {
     border-top: 1px solid rgba(93, 133, 155, 0.2);
     animation: fadeIn 0.8s ease-out 0.9s forwards;
     opacity: 0;
+    justify-content: center;
+    width: 100%;
 }
 
 .stat-item {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
     border-radius: var(--radius-md);
-    box-shadow: 0 5px 15px rgba(44, 62, 80, 0.05);
+    box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(93, 133, 155, 0.1);
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    min-width: 200px;
 }
 
 .stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(44, 62, 80, 0.15);
 }
 
 .stat-number {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
     -webkit-background-clip: text;
@@ -423,7 +436,7 @@ ul {
     background-clip: text;
     color: transparent;
     line-height: 1;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.4rem;
     position: relative;
 }
 
@@ -431,18 +444,20 @@ ul {
     content: '';
     position: absolute;
     bottom: -5px;
-    left: 0;
-    width: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
     height: 3px;
     background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     border-radius: var(--radius-full);
 }
 
 .stat-label {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--color-dark);
-    margin-top: 0.5rem;
+    margin-top: 0.8rem;
+    text-align: center;
 }
 
 .scroll-indicator {
@@ -619,7 +634,7 @@ ul {
 
     .cta-buttons {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .section-header {
@@ -631,12 +646,13 @@ ul {
     }
     
     .hero-stats {
-        gap: var(--spacing-sm);
-        justify-content: space-between;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .stat-item {
-        width: calc(50% - var(--spacing-sm));
+        min-width: auto;
+        width: calc(50% - var(--spacing-md));
     }
 }
 
@@ -658,19 +674,17 @@ ul {
     }
     
     .hero-content {
-        text-align: left;
-    }
-    
-    .cta-buttons {
-        justify-content: flex-start;
+        text-align: center;
     }
     
     .hero-stats {
         flex-direction: column;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
+        align-items: center;
     }
     
     .stat-item {
         width: 100%;
+        max-width: 300px;
     }
 }
