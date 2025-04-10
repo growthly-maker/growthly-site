@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-menu li a');
     const sections = document.querySelectorAll('section[id]');
     const statNumbers = document.querySelectorAll('.stat-number');
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    const aosElements = document.querySelectorAll('[data-aos]');
 
     // Header scroll effect
     function toggleHeaderClass() {
@@ -108,6 +110,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Animation AOS (Animate On Scroll)
+    function initAOS() {
+        if (!aosElements.length) return;
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aos-animate');
+                    observer.unobserve(entry.target); // Désinscrire l'élément après animation
+                }
+            });
+        }, observerOptions);
+        
+        aosElements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // Accordion functionality
+    function initAccordion() {
+        if (!accordionHeaders.length) return;
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                // Toggle class active sur le header
+                this.classList.toggle('active');
+                
+                // Get next sibling (content)
+                const content = this.nextElementSibling;
+                
+                // Toggle max-height
+                if (this.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0';
+                }
+                
+                // Close other accordions (optional - for single open accordion)
+                accordionHeaders.forEach(otherHeader => {
+                    if (otherHeader !== this && otherHeader.classList.contains('active')) {
+                        otherHeader.classList.remove('active');
+                        otherHeader.nextElementSibling.style.maxHeight = '0';
+                    }
+                });
+            });
+        });
+        
+        // Open first accordion by default
+        if (accordionHeaders.length > 0) {
+            accordionHeaders[0].click();
+        }
+    }
+
     // PORTFOLIO SECTION - SIMPLIFIÉ ET GARANTI FONCTIONNEL
     function initPortfolio() {
         // Get portfolio elements
@@ -159,6 +220,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to initialize services section
+    function initServices() {
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        if (!serviceCards.length) return;
+        
+        // Add hover effect for cards
+        serviceCards.forEach((card, index) => {
+            // Staggered animation on page load
+            setTimeout(() => {
+                card.classList.add('fade-in');
+                card.style.opacity = '1';
+            }, index * 100);
+            
+            // Add hover effect
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    }
+
     // Event Listeners
     window.addEventListener('scroll', toggleHeaderClass);
     window.addEventListener('scroll', setActiveLink);
@@ -173,6 +259,9 @@ document.addEventListener('DOMContentLoaded', function() {
     setActiveLink();
     animateStats();
     initPortfolio();
+    initAOS();
+    initAccordion();
+    initServices();
 
     // Apply fade-in animation to hero section elements
     const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
@@ -181,15 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.animationDelay = `${index * 0.2}s`;
     });
 });
-
-// Function to initialize services section
-function initServices() {
-    const servicesGrid = document.querySelector('.services-grid');
-    
-    if (servicesGrid) {
-        // Services data will be implemented in a future iteration
-    }
-}
 
 // Function to initialize testimonials slider
 function initTestimonialsSlider() {

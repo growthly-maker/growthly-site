@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <!-- Transparency icon - Document with magnifying glass -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#5D859B" stroke-width="1" />
+  
+  <!-- Document -->
+  <rect x="10" y="10" width="20" height="30" fill="white" stroke="#5D859B" stroke-width="2" rx="2" />
+  
+  <!-- Document lines -->
+  <line x1="15" y1="18" x2="25" y2="18" stroke="#5D859B" stroke-width="1" />
+  <line x1="15" y1="23" x2="25" y2="23" stroke="#5D859B" stroke-width="1" />
+  <line x1="15" y1="28" x2="25" y2="28" stroke="#5D859B" stroke-width="1" />
+  <line x1="15" y1="33" x2="20" y2="33" stroke="#5D859B" stroke-width="1" />
+  
+  <!-- Magnifying glass -->
+  <circle cx="32" cy="30" r="8" fill="none" stroke="#5D859B" stroke-width="2" />
+  <circle cx="32" cy="30" r="6" fill="rgba(93, 133, 155, 0.1)" />
+  <line x1="38" y1="36" x2="42" y2="40" stroke="#5D859B" stroke-width="2" stroke-linecap="round" />
+  
+  <!-- Check mark -->
+  <path d="M17 14 L20 17 L26 11" fill="none" stroke="#FFCD3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
