@@ -70,23 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Reveal animations on scroll
-    function revealOnScroll() {
-        const revealElements = document.querySelectorAll('.reveal');
-        const windowHeight = window.innerHeight;
-
-        revealElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-
-            if (elementTop < windowHeight - elementVisible) {
-                element.classList.add('active');
-            } else {
-                element.classList.remove('active');
-            }
-        });
-    }
-    
     // Animation pour les statistiques
     function animateStats() {
         if (!statNumbers.length) return;
@@ -125,10 +108,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // PORTFOLIO SECTION - SIMPLIFIÉ ET GARANTI FONCTIONNEL
+    function initPortfolio() {
+        // Get portfolio elements
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        if (!filterBtns.length || !portfolioItems.length) return;
+        
+        // Ajouter la classe show à tous les éléments au démarrage
+        portfolioItems.forEach((item, index) => {
+            // Délai échelonné pour les animations d'entrée
+            setTimeout(() => {
+                item.classList.add('show');
+            }, index * 100);
+        });
+        
+        // Gestionnaire de clic pour les boutons de filtre
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Retirer la classe active de tous les boutons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                
+                // Ajouter la classe active au bouton cliqué
+                this.classList.add('active');
+                
+                // Récupérer la valeur du filtre
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Filtrer les éléments
+                portfolioItems.forEach(item => {
+                    // D'abord cacher tous les éléments avec transition
+                    item.classList.remove('show');
+                    
+                    // Après un délai pour la transition de disparition
+                    setTimeout(() => {
+                        // Si 'all' ou correspond à la catégorie, montrer l'élément
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            // Petit délai pour permettre au navigateur de traiter le changement display
+                            setTimeout(() => {
+                                item.classList.add('show');
+                            }, 50);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }, 300); // Délai correspondant à la durée de la transition CSS
+                });
+            });
+        });
+    }
+
     // Event Listeners
     window.addEventListener('scroll', toggleHeaderClass);
     window.addEventListener('scroll', setActiveLink);
-    window.addEventListener('scroll', revealOnScroll);
     menuToggle.addEventListener('click', toggleMenu);
 
     navLinks.forEach(link => {
@@ -139,11 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleHeaderClass();
     setActiveLink();
     animateStats();
-
-    // Add reveal class to elements that should animate on scroll
-    document.querySelectorAll('.section-header, .services-grid, .portfolio-grid, .about-content, .testimonials-slider, .contact-content').forEach(element => {
-        element.classList.add('reveal');
-    });
+    initPortfolio();
 
     // Apply fade-in animation to hero section elements
     const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
@@ -162,15 +191,6 @@ function initServices() {
     }
 }
 
-// Function to initialize portfolio section
-function initPortfolio() {
-    const portfolioGrid = document.querySelector('.portfolio-grid');
-    
-    if (portfolioGrid) {
-        // Portfolio data will be implemented in a future iteration
-    }
-}
-
 // Function to initialize testimonials slider
 function initTestimonialsSlider() {
     const testimonialsSlider = document.querySelector('.testimonials-slider');
@@ -179,6 +199,3 @@ function initTestimonialsSlider() {
         // Testimonials slider will be implemented in a future iteration
     }
 }
-
-// These functions will be called when specific sections are implemented
-// For now, we're just setting up the structure
