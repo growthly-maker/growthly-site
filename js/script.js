@@ -107,37 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
             window.requestAnimationFrame(step);
         });
     }
-    
-    // Reveal animations on scroll using Intersection Observer
-    function setupIntersectionObserver() {
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-        
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    observer.unobserve(entry.target); // Stop observing once animated
-                }
-            });
-        }, options);
-        
-        portfolioItems.forEach(item => {
-            observer.observe(item);
-        });
-        
-        // Also observe other elements that should animate on scroll
-        const revealElements = document.querySelectorAll('.section-header, .portfolio-cta, .about-content, .testimonials-slider, .contact-content');
-        revealElements.forEach(el => {
-            observer.observe(el);
-        });
-    }
 
-    // Portfolio Section Functions
+    // PORTFOLIO SECTION - SIMPLIFIÉ ET GARANTI FONCTIONNEL
     function initPortfolio() {
         // Get portfolio elements
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -145,64 +116,46 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!filterBtns.length || !portfolioItems.length) return;
         
-        // Filter button click handler with improved animations
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all buttons
-                filterBtns.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to current button
-                this.classList.add('active');
-                
-                // Get filter value
-                const filterValue = this.getAttribute('data-filter');
-                
-                // Animation timing variables
-                const animOutDuration = 300; // ms
-                const staggerDelay = 50; // ms
-                
-                // Filter portfolio items with enhanced animations
-                portfolioItems.forEach((item, index) => {
-                    const category = item.getAttribute('data-category');
-                    const shouldShow = filterValue === 'all' || category === filterValue;
-                    
-                    // First hide all items with animation
-                    item.style.transition = `all ${animOutDuration}ms cubic-bezier(0.165, 0.84, 0.44, 1)`;
-                    
-                    if (shouldShow) {
-                        // For items that should be shown
-                        setTimeout(() => {
-                            item.style.opacity = '0';
-                            item.style.transform = 'translateY(40px)';
-                            
-                            // Slight delay to ensure hide animation completes
-                            setTimeout(() => {
-                                item.style.display = '';
-                                
-                                // Stagger the reveal of each item
-                                setTimeout(() => {
-                                    item.style.opacity = '1';
-                                    item.style.transform = 'translateY(0)';
-                                }, staggerDelay * index);
-                            }, animOutDuration);
-                        }, 10); // Small delay to ensure batch processing
-                    } else {
-                        // For items that should be hidden
-                        item.style.opacity = '0';
-                        item.style.transform = 'translateY(40px)';
-                        
-                        // Hide after animation completes
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, animOutDuration);
-                    }
-                });
-            });
+        // Ajouter la classe show à tous les éléments au démarrage
+        portfolioItems.forEach((item, index) => {
+            // Délai échelonné pour les animations d'entrée
+            setTimeout(() => {
+                item.classList.add('show');
+            }, index * 100);
         });
         
-        // Initially show all items with staggered animation
-        portfolioItems.forEach((item, index) => {
-            item.style.animationDelay = `${0.1 + (index * 0.1)}s`;
+        // Gestionnaire de clic pour les boutons de filtre
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Retirer la classe active de tous les boutons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                
+                // Ajouter la classe active au bouton cliqué
+                this.classList.add('active');
+                
+                // Récupérer la valeur du filtre
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Filtrer les éléments
+                portfolioItems.forEach(item => {
+                    // D'abord cacher tous les éléments avec transition
+                    item.classList.remove('show');
+                    
+                    // Après un délai pour la transition de disparition
+                    setTimeout(() => {
+                        // Si 'all' ou correspond à la catégorie, montrer l'élément
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            // Petit délai pour permettre au navigateur de traiter le changement display
+                            setTimeout(() => {
+                                item.classList.add('show');
+                            }, 50);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }, 300); // Délai correspondant à la durée de la transition CSS
+                });
+            });
         });
     }
 
@@ -220,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setActiveLink();
     animateStats();
     initPortfolio();
-    setupIntersectionObserver();
 
     // Apply fade-in animation to hero section elements
     const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
