@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <!-- Social Media Marketing icon - Network of people/connections -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#5D859B" stroke-width="1" />
+  
+  <!-- Central profile -->
+  <circle cx="25" cy="25" r="6" fill="#5D859B" />
+  <circle cx="25" cy="22" r="2" fill="white" />
+  <path d="M22 27 C22 24, 28 24, 28 27" stroke="white" stroke-width="1" fill="none" />
+  
+  <!-- Network nodes/people -->
+  <circle cx="15" cy="15" r="4" fill="#FFCD3D" />
+  <circle cx="35" cy="15" r="4" fill="#FFCD3D" />
+  <circle cx="10" cy="30" r="4" fill="#FFCD3D" />
+  <circle cx="40" cy="30" r="4" fill="#FFCD3D" />
+  <circle cx="25" cy="40" r="4" fill="#FFCD3D" />
+  
+  <!-- Connections -->
+  <line x1="25" y1="25" x2="15" y2="15" stroke="#5D859B" stroke-width="1" />
+  <line x1="25" y1="25" x2="35" y2="15" stroke="#5D859B" stroke-width="1" />
+  <line x1="25" y1="25" x2="10" y2="30" stroke="#5D859B" stroke-width="1" />
+  <line x1="25" y1="25" x2="40" y2="30" stroke="#5D859B" stroke-width="1" />
+  <line x1="25" y1="25" x2="25" y2="40" stroke="#5D859B" stroke-width="1" />
+  
+  <!-- Social engagement symbols -->
+  <path d="M14 14 L16 12" stroke="white" stroke-width="1" stroke-linecap="round" />
+  <path d="M34 14 L36 12" stroke="white" stroke-width="1" stroke-linecap="round" />
+  <path d="M9 29 L11 27" stroke="white" stroke-width="1" stroke-linecap="round" />
+  <path d="M39 29 L41 27" stroke="white" stroke-width="1" stroke-linecap="round" />
+  <path d="M24 39 L26 37" stroke="white" stroke-width="1" stroke-linecap="round" />
+</svg>

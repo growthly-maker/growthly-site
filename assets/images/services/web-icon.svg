@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <!-- Web Design & Development icon - Browser window with design elements -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#5D859B" stroke-width="1" />
+  
+  <!-- Browser window -->
+  <rect x="10" y="10" width="30" height="30" rx="2" fill="white" stroke="#5D859B" stroke-width="2" />
+  
+  <!-- Browser top bar -->
+  <rect x="10" y="10" width="30" height="6" rx="2" fill="#5D859B" />
+  
+  <!-- Browser buttons -->
+  <circle cx="14" cy="13" r="1" fill="white" />
+  <circle cx="18" cy="13" r="1" fill="white" />
+  <circle cx="22" cy="13" r="1" fill="white" />
+  
+  <!-- URL bar -->
+  <rect x="25" y="11.5" width="12" height="3" rx="1.5" fill="white" opacity="0.5" />
+  
+  <!-- Design elements inside browser -->
+  <!-- Layout mockup -->
+  <rect x="13" y="20" width="24" height="4" rx="1" fill="#FFCD3D" opacity="0.7" />
+  <rect x="13" y="26" width="10" height="10" rx="1" fill="#5D859B" opacity="0.3" />
+  <rect x="25" y="26" width="12" height="4" rx="1" fill="#5D859B" opacity="0.3" />
+  <rect x="25" y="32" width="12" height="4" rx="1" fill="#5D859B" opacity="0.3" />
+  
+  <!-- Code brackets -->
+  <path d="M18 36 L15 33 L18 30" stroke="#E74C3C" stroke-width="1" fill="none" />
+  <path d="M32 36 L35 33 L32 30" stroke="#E74C3C" stroke-width="1" fill="none" />
+</svg>
