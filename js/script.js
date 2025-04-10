@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.classList.remove('active');
             }
         });
+        
+        // Animation for portfolio items
+        animatePortfolioItems();
     }
     
     // Animation pour les statistiques
@@ -125,6 +128,70 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Portfolio Section Functions
+    function initPortfolio() {
+        // Get portfolio elements
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        // Set animation order for staggered animations
+        portfolioItems.forEach((item, index) => {
+            item.style.setProperty('--animation-order', index);
+            if (index < 6) { // Show first 6 items immediately
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, index * 100);
+            }
+        });
+        
+        // Filter button click handler
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to current button
+                this.classList.add('active');
+                
+                // Get filter value
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Filter portfolio items
+                portfolioItems.forEach((item, index) => {
+                    item.classList.remove('show');
+                    
+                    setTimeout(() => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            setTimeout(() => {
+                                item.classList.add('show');
+                            }, index * 50);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }, 300); // Wait for fade out animation to complete
+                });
+            });
+        });
+    }
+    
+    // Animate portfolio items when they come into view
+    function animatePortfolioItems() {
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        const windowHeight = window.innerHeight;
+        
+        portfolioItems.forEach((item, index) => {
+            const itemTop = item.getBoundingClientRect().top;
+            const itemVisible = 150;
+            
+            if (itemTop < windowHeight - itemVisible) {
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, index * 100);
+            }
+        });
+    }
+
     // Event Listeners
     window.addEventListener('scroll', toggleHeaderClass);
     window.addEventListener('scroll', setActiveLink);
@@ -139,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleHeaderClass();
     setActiveLink();
     animateStats();
+    initPortfolio();
 
     // Add reveal class to elements that should animate on scroll
     document.querySelectorAll('.section-header, .services-grid, .portfolio-grid, .about-content, .testimonials-slider, .contact-content').forEach(element => {
@@ -162,15 +230,6 @@ function initServices() {
     }
 }
 
-// Function to initialize portfolio section
-function initPortfolio() {
-    const portfolioGrid = document.querySelector('.portfolio-grid');
-    
-    if (portfolioGrid) {
-        // Portfolio data will be implemented in a future iteration
-    }
-}
-
 // Function to initialize testimonials slider
 function initTestimonialsSlider() {
     const testimonialsSlider = document.querySelector('.testimonials-slider');
@@ -179,6 +238,3 @@ function initTestimonialsSlider() {
         // Testimonials slider will be implemented in a future iteration
     }
 }
-
-// These functions will be called when specific sections are implemented
-// For now, we're just setting up the structure
