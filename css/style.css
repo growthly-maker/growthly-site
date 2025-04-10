@@ -354,7 +354,7 @@ ul {
 }
 
 .hero-content {
-    max-width: 800px;
+    max-width: 600px;
     animation: fadeIn 0.8s ease-out forwards;
 }
 
@@ -389,6 +389,8 @@ ul {
     flex-wrap: wrap;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(93, 133, 155, 0.2);
     animation: fadeIn 0.8s ease-out 0.9s forwards;
     opacity: 0;
 }
@@ -396,20 +398,51 @@ ul {
 .stat-item {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    box-shadow: 0 5px 15px rgba(44, 62, 80, 0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(93, 133, 155, 0.1);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 
 .stat-number {
     font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
     line-height: 1;
+    margin-bottom: 0.2rem;
+    position: relative;
+}
+
+.stat-number::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border-radius: var(--radius-full);
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: var(--color-gray);
-    margin-top: 0.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-dark);
+    margin-top: 0.5rem;
 }
 
 .scroll-indicator {
@@ -598,8 +631,12 @@ ul {
     }
     
     .hero-stats {
-        flex-direction: column;
         gap: var(--spacing-sm);
+        justify-content: space-between;
+    }
+    
+    .stat-item {
+        width: calc(50% - var(--spacing-sm));
     }
 }
 
@@ -621,19 +658,19 @@ ul {
     }
     
     .hero-content {
-        text-align: center;
+        text-align: left;
     }
     
     .cta-buttons {
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
     }
     
     .hero-stats {
-        align-items: center;
+        flex-direction: column;
+        gap: var(--spacing-sm);
     }
     
     .stat-item {
-        align-items: center;
+        width: 100%;
     }
 }
