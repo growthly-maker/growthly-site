@@ -81,13 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (elementTop < windowHeight - elementVisible) {
                 element.classList.add('active');
-            } else {
-                element.classList.remove('active');
             }
         });
-        
-        // Animation for portfolio items
-        animatePortfolioItems();
     }
     
     // Animation pour les statistiques
@@ -134,15 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const filterBtns = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
         
-        // Set animation order for staggered animations
-        portfolioItems.forEach((item, index) => {
-            item.style.setProperty('--animation-order', index);
-            if (index < 6) { // Show first 6 items immediately
-                setTimeout(() => {
-                    item.classList.add('show');
-                }, index * 100);
-            }
-        });
+        if (!filterBtns.length || !portfolioItems.length) return;
         
         // Filter button click handler
         filterBtns.forEach(btn => {
@@ -156,39 +143,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Get filter value
                 const filterValue = this.getAttribute('data-filter');
                 
-                // Filter portfolio items
-                portfolioItems.forEach((item, index) => {
-                    item.classList.remove('show');
+                // Filter portfolio items with nice animation
+                portfolioItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
                     
-                    setTimeout(() => {
-                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                            item.style.display = 'block';
-                            setTimeout(() => {
-                                item.classList.add('show');
-                            }, index * 50);
-                        } else {
+                    // Reset any previous transformations
+                    item.style.opacity = '';
+                    item.style.transform = '';
+                    
+                    // Check if item should be shown or hidden
+                    if (filterValue === 'all' || category === filterValue) {
+                        // Show with animation
+                        item.classList.remove('hide');
+                        setTimeout(() => {
+                            item.style.display = '';
+                        }, 50);
+                    } else {
+                        // Hide with animation
+                        item.classList.add('hide');
+                        setTimeout(() => {
                             item.style.display = 'none';
-                        }
-                    }, 300); // Wait for fade out animation to complete
+                        }, 500); // Wait for animation to complete
+                    }
                 });
             });
-        });
-    }
-    
-    // Animate portfolio items when they come into view
-    function animatePortfolioItems() {
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        const windowHeight = window.innerHeight;
-        
-        portfolioItems.forEach((item, index) => {
-            const itemTop = item.getBoundingClientRect().top;
-            const itemVisible = 150;
-            
-            if (itemTop < windowHeight - itemVisible) {
-                setTimeout(() => {
-                    item.classList.add('show');
-                }, index * 100);
-            }
         });
     }
 
@@ -205,11 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     toggleHeaderClass();
     setActiveLink();
+    revealOnScroll();
     animateStats();
     initPortfolio();
 
     // Add reveal class to elements that should animate on scroll
-    document.querySelectorAll('.section-header, .services-grid, .portfolio-grid, .about-content, .testimonials-slider, .contact-content').forEach(element => {
+    document.querySelectorAll('.section-header, .about-content, .testimonials-slider, .contact-content').forEach(element => {
         element.classList.add('reveal');
     });
 
