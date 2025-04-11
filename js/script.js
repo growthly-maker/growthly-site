@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('aos-animate');
-                    observer.unobserve(entry.target); // Désinscrire l'élément après animation
+                    // Ne pas désinscrire pour permettre les animations répétées au défilement
                 }
             });
         }, observerOptions);
@@ -139,12 +139,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!accordionHeaders.length) return;
         
         accordionHeaders.forEach(header => {
+            // Initialiser les contenus d'accordéon cachés
+            const content = header.nextElementSibling;
+            if (content) {
+                content.style.maxHeight = '0';
+                content.style.overflow = 'hidden';
+                content.style.transition = 'max-height 0.3s ease';
+            }
+            
             header.addEventListener('click', function() {
                 // Toggle class active sur le header
                 this.classList.toggle('active');
                 
                 // Get next sibling (content)
                 const content = this.nextElementSibling;
+                
+                // Vérifier que le contenu existe
+                if (!content) return;
                 
                 // Toggle max-height
                 if (this.classList.contains('active')) {
@@ -157,7 +168,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 accordionHeaders.forEach(otherHeader => {
                     if (otherHeader !== this && otherHeader.classList.contains('active')) {
                         otherHeader.classList.remove('active');
-                        otherHeader.nextElementSibling.style.maxHeight = '0';
+                        const otherContent = otherHeader.nextElementSibling;
+                        if (otherContent) {
+                            otherContent.style.maxHeight = '0';
+                        }
                     }
                 });
             });
@@ -179,6 +193,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Ajouter la classe show à tous les éléments au démarrage
         portfolioItems.forEach((item, index) => {
+            // Assurer que tous les éléments sont visibles au départ
+            item.style.display = 'block';
+            
             // Délai échelonné pour les animations d'entrée
             setTimeout(() => {
                 item.classList.add('show');
@@ -226,21 +243,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!serviceCards.length) return;
         
-        // Add hover effect for cards
+        // Add animation and hover effect for cards
         serviceCards.forEach((card, index) => {
+            // Assurer que les cartes commencent avec opacity: 0
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.3s ease';
+            
             // Staggered animation on page load
             setTimeout(() => {
-                card.classList.add('fade-in');
                 card.style.opacity = '1';
-            }, index * 100);
+                card.style.transform = 'translateY(0)';
+            }, 100 + index * 100);
             
             // Add hover effect
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
             });
             
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
             });
         });
     }
@@ -254,21 +278,32 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', smoothScroll);
     });
 
-    // Initialize
+    // Initialize all functionality in proper order
     toggleHeaderClass();
     setActiveLink();
-    animateStats();
-    initPortfolio();
-    initAOS();
-    initAccordion();
-    initServices();
-
-    // Apply fade-in animation to hero section elements
-    const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
-    heroElements.forEach((element, index) => {
-        element.classList.add('fade-in');
-        element.style.animationDelay = `${index * 0.2}s`;
-    });
+    
+    // Initialisation des sections principales avec un léger délai pour permettre le chargement du DOM
+    setTimeout(() => {
+        initAOS();
+        initAccordion();
+        initServices();
+        initPortfolio();
+        animateStats();
+        
+        // Apply fade-in animation to hero section elements
+        const heroElements = document.querySelectorAll('.hero-section h1, .hero-section p, .hero-section .cta-buttons');
+        heroElements.forEach((element, index) => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'all 0.6s ease';
+            element.style.transitionDelay = `${index * 0.2}s`;
+            
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    }, 100);
 });
 
 // Function to initialize testimonials slider
