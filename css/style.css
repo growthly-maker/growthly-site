@@ -7,6 +7,7 @@
     --color-light: #FFFFFF;
     --color-light-gray: #F5F7FA;
     --color-gray: #DDDDDD;
+    --color-highlight: #FFEB3B; /* Jaune pour le surlignement */
     
     --font-primary: 'Inter', sans-serif;
     --font-display: 'Playfair Display', serif;
@@ -170,7 +171,7 @@ img {
     left: 0;
     width: 100%;
     height: 8px;
-    background-color: rgba(93, 133, 155, 0.2);
+    background-color: rgba(255, 235, 59, 0.5); /* Jaune transparent */
     z-index: -1;
 }
 
@@ -637,7 +638,7 @@ img {
 }
 
 .portfolio-link::after {
-    content: '\\2192'; /* Flèche droite Unicode */
+    content: '\2192'; /* Flèche droite Unicode */
     margin-left: 0.5rem;
     opacity: 0;
     transform: translateX(-5px);
