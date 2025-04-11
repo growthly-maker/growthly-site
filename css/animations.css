@@ -2,115 +2,137 @@
 .hero-title-container {
     position: relative;
     display: inline-block;
+    width: 100%;
 }
 
 .hero-title-animation {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    top: -20px;
+    left: -20px;
+    width: calc(100% + 40px);
+    height: calc(100% + 40px);
+    overflow: visible;
     z-index: -1;
+    pointer-events: none;
 }
 
 .particle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(93, 133, 155, 0.2); /* Couleur principale avec transparence */
+    background: var(--color-primary); /* Couleur principale plus visible */
     pointer-events: none;
     z-index: -1;
+    box-shadow: 0 0 10px 2px rgba(93, 133, 155, 0.3); /* Ajouter un effet de glow */
 }
 
 .particle:nth-child(1) {
-    width: 8px;
-    height: 8px;
+    width: 15px;
+    height: 15px;
     top: 20%;
     left: 10%;
-    animation: floating 6s infinite ease-in-out;
-}
-
-.particle:nth-child(2) {
-    width: 12px;
-    height: 12px;
-    top: 40%;
-    left: 30%;
-    animation: floating 9s infinite ease-in-out;
-}
-
-.particle:nth-child(3) {
-    width: 6px;
-    height: 6px;
-    top: 60%;
-    left: 50%;
-    animation: floating 7s infinite ease-in-out;
-}
-
-.particle:nth-child(4) {
-    width: 10px;
-    height: 10px;
-    top: 30%;
-    left: 70%;
+    background-color: rgba(93, 133, 155, 0.7);
     animation: floating 8s infinite ease-in-out;
 }
 
+.particle:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    top: 40%;
+    left: 30%;
+    background-color: rgba(93, 133, 155, 0.6);
+    animation: floating 12s infinite ease-in-out;
+}
+
+.particle:nth-child(3) {
+    width: 12px;
+    height: 12px;
+    top: 60%;
+    left: 50%;
+    background-color: rgba(93, 133, 155, 0.8);
+    animation: floating 9s infinite ease-in-out;
+}
+
+.particle:nth-child(4) {
+    width: 18px;
+    height: 18px;
+    top: 30%;
+    left: 70%;
+    background-color: rgba(93, 133, 155, 0.7);
+    animation: floating 10s infinite ease-in-out;
+}
+
 .particle:nth-child(5) {
-    width: 14px;
-    height: 14px;
+    width: 25px;
+    height: 25px;
     top: 80%;
     left: 20%;
-    animation: floating 10s infinite ease-in-out;
+    background-color: rgba(93, 133, 155, 0.5);
+    animation: floating 11s infinite ease-in-out;
 }
 
 @keyframes floating {
     0% {
         transform: translate(0, 0) rotate(0deg);
-        opacity: 0.5;
+        opacity: 0.6;
+    }
+    25% {
+        transform: translate(15px, 15px) rotate(90deg);
+        opacity: 0.8;
     }
     50% {
-        transform: translate(15px, 15px) rotate(180deg);
+        transform: translate(30px, 0px) rotate(180deg);
+        opacity: 1;
+    }
+    75% {
+        transform: translate(15px, -15px) rotate(270deg);
         opacity: 0.8;
     }
     100% {
         transform: translate(0, 0) rotate(360deg);
-        opacity: 0.5;
+        opacity: 0.6;
     }
 }
 
 /* Effet de vague subtil pour le titre */
 .wave-animation {
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
     left: 0;
     width: 100%;
-    height: 30%;
-    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.05));
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.1));
     z-index: -1;
 }
 
 .wave-animation::before {
     content: '';
     position: absolute;
-    width: 100%;
+    width: 200%;
     height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.05));
+    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.15));
     animation: wave 8s infinite linear;
 }
 
 .wave-animation::after {
     content: '';
     position: absolute;
-    width: 100%;
+    width: 200%;
     height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.05));
+    background: linear-gradient(to bottom, transparent, rgba(93, 133, 155, 0.1));
     animation: wave 12s infinite linear reverse;
 }
 
 @keyframes wave {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
     100% {
-        transform: translateX(100%);
+        transform: translateX(0%);
     }
+}
+
+/* S'assurer que le titre est bien positionné */
+.hero-title-container h1 {
+    position: relative;
+    z-index: 1;
 }
